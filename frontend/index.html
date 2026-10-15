@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SIGNOVA | Sign Language Recognition</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        <div class="logo-icon">🤟</div>
+
+        <div>
+            <h2>SIGNOVA</h2>
+            <span>Signs for a Better Tomorrow</span>
+        </div>
+    </div>
+
+    <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#recognition">Sign Recognition</a>
+        <a href="/trainer">Improve Accuracy</a>
+        <a href="#how">How It Works</a>
+        <a href="#features">Features</a>
+        <a href="#about">About</a>
+    </div>
+
+    <button class="nav-btn" onclick="scrollToRecognition()">
+        Try Now →
+    </button>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <span class="badge">
+            AI FOR A MORE INCLUSIVE TOMORROW
+        </span>
+
+        <h1>
+            <span>SIGN</span>OVA
+        </h1>
+
+        <h2>
+            Breaking Barriers. Understanding Signs.
+        </h2>
+
+        <p>
+            An AI-powered sign language recognition system
+            that transforms hand gestures into meaningful
+            communication.
+        </p>
+
+        <div class="hero-buttons">
+
+            <button class="primary-btn"
+                    onclick="scrollToRecognition()">
+                Try SIGNOVA →
+            </button>
+
+            <button class="secondary-btn"
+                    onclick="document.getElementById('how').scrollIntoView()">
+                Learn More
+            </button>
+
+        </div>
+
+        <div class="hero-points">
+
+            <div>
+                <strong>👥</strong>
+                <span>Inclusive<br>Communication</span>
+            </div>
+
+            <div>
+                <strong>♡</strong>
+                <span>Accessible<br>Society</span>
+            </div>
+
+            <div>
+                <strong>▮▮▮</strong>
+                <span>Empowered<br>Future</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-image">
+
+        <div class="scan-box">
+
+            <div class="scan-corners"></div>
+
+            <div class="hand">
+                🤚
+            </div>
+
+            <div class="result-card">
+
+                <span>◉ Detected Sign</span>
+
+                <h3>LIVE PREVIEW</h3>
+
+                <p>Real predictions appear in the recognition panel.</p>
+
+                <div class="confidence">
+                    <div></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= RECOGNITION ================= -->
+
+<section class="recognition" id="recognition">
+
+    <div class="section-heading">
+
+        <h2>🤖 Sign Recognition</h2>
+
+        <p>
+            Use your camera for live recognition or upload a short video of one sign.
+        </p>
+
+    </div>
+
+
+    <div class="recognition-grid">
+
+
+        <!-- CAMERA -->
+
+        <div class="camera-card">
+
+            <div class="card-header">
+
+                <h3>📹 Camera</h3>
+
+                <span id="cameraStatus">
+                    ● Camera Off
+                </span>
+
+            </div>
+
+
+            <div class="camera-container">
+
+                <video id="video"
+                       autoplay
+                       playsinline
+                       muted>
+                </video>
+
+                <div id="cameraPlaceholder">
+
+                    <div class="camera-icon">
+                        📷
+                    </div>
+
+                    <p>
+                        Camera preview will appear here
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="camera-buttons">
+                <button class="primary-btn" onclick="startCamera()">Start Camera</button>
+                <button class="secondary-btn" onclick="startRealtimeRecognition()">Start Real-Time Recognition</button>
+                <button class="secondary-btn" onclick="stopRealtimeRecognition()">Stop Recognition</button>
+                <button class="secondary-btn" onclick="stopCamera()">Stop Camera</button>
+            </div>
+
+            <input type="file" id="videoUpload" accept="video/mp4,video/quicktime,video/x-msvideo,video/*" hidden>
+            <button class="upload-btn" onclick="document.getElementById('videoUpload').click()">
+                📁 Upload Video
+            </button>
+
+        </div>
+
+
+
+        <!-- RESULT -->
+
+        <div class="result-panel">
+
+            <div class="card-header">
+
+                <h3>🎯 Recognition Result</h3>
+
+                <span class="live">● LIVE</span>
+
+            </div>
+
+
+            <div class="result-content">
+
+                <div class="detected-icon">
+                    🤚
+                </div>
+
+                <div class="result-info">
+
+                    <span>Detected Sign</span>
+
+                    <h1 id="detectedSign">
+                        WAITING
+                    </h1>
+
+                    <span>Confidence</span>
+
+                    <h2 id="confidence">
+                        —
+                    </h2>
+
+                    <span>Output Text</span>
+
+                    <p id="outputText">
+                        Start the camera and recognition to begin.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button class="speak-btn"
+                    onclick="speakResult()">
+
+                🔊 Speak Result
+
+            </button>
+
+        </div>
+
+
+
+        <!-- HISTORY -->
+
+        <div class="history-panel">
+
+            <div class="card-header">
+
+                <h3>🕘 Recent Detections</h3>
+
+                <button onclick="clearHistory()">
+                    Clear
+                </button>
+
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>#</th>
+                        <th>Sign</th>
+                        <th>Text</th>
+                        <th>Confidence</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="history"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= HOW IT WORKS ================= -->
+
+<section class="how" id="how">
+
+    <div class="section-heading">
+
+        <h2>How SIGNOVA Works</h2>
+
+        <p>
+            From gesture to understanding in four simple steps.
+        </p>
+
+    </div>
+
+
+    <div class="steps">
+
+        <div class="step">
+
+            <div class="step-number">01</div>
+
+            <div class="step-icon">📷</div>
+
+            <h3>Capture</h3>
+
+            <p>
+                Camera captures the user's hand gesture.
+            </p>
+
+        </div>
+
+
+        <div class="arrow">→</div>
+
+
+        <div class="step">
+
+            <div class="step-number">02</div>
+
+            <div class="step-icon">🔍</div>
+
+            <h3>Detect</h3>
+
+            <p>
+                AI detects the hand and its position.
+            </p>
+
+        </div>
+
+
+        <div class="arrow">→</div>
+
+
+        <div class="step">
+
+            <div class="step-number">03</div>
+
+            <div class="step-icon">🧠</div>
+
+            <h3>Recognize</h3>
+
+            <p>
+                Machine learning model identifies the sign.
+            </p>
+
+        </div>
+
+
+        <div class="arrow">→</div>
+
+
+        <div class="step">
+
+            <div class="step-number">04</div>
+
+            <div class="step-icon">🔊</div>
+
+            <h3>Communicate</h3>
+
+            <p>
+                Sign is converted into text and speech.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= FEATURES ================= -->
+
+<section class="features" id="features">
+
+    <div class="section-heading">
+
+        <h2>Key Features</h2>
+
+        <p>
+            Everything needed for accessible communication.
+        </p>
+
+    </div>
+
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+            <span>🎯</span>
+            <h3>Real-Time Recognition</h3>
+            <p>Recognize gestures instantly.</p>
+        </div>
+
+        <div class="feature-card">
+            <span>📝</span>
+            <h3>Text Conversion</h3>
+            <p>Convert signs into readable text.</p>
+        </div>
+
+        <div class="feature-card">
+            <span>🔊</span>
+            <h3>Speech Output</h3>
+            <p>Convert recognized signs into speech.</p>
+        </div>
+
+        <div class="feature-card">
+            <span>📷</span>
+            <h3>Image Upload</h3>
+            <p>Upload an image for recognition.</p>
+        </div>
+
+        <div class="feature-card">
+            <span>📊</span>
+            <h3>Confidence Score</h3>
+            <p>View the model's prediction confidence.</p>
+        </div>
+
+        <div class="feature-card">
+            <span>🕘</span>
+            <h3>Recognition History</h3>
+            <p>Keep track of recently detected signs.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= SDG ================= -->
+
+<section class="impact">
+
+    <div class="section-heading">
+
+        <h2>Our Impact</h2>
+
+        <p>
+            Technology for a more inclusive world.
+        </p>
+
+    </div>
+
+
+    <div class="impact-grid">
+
+        <div class="sdg-card">
+
+            <div class="sdg-number">
+                4
+            </div>
+
+            <div>
+                <h3>Quality Education</h3>
+
+                <p>
+                    Supporting accessible and inclusive learning.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="sdg-card">
+
+            <div class="sdg-number">
+                10
+            </div>
+
+            <div>
+                <h3>Reduced Inequalities</h3>
+
+                <p>
+                    Helping reduce communication barriers.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= ABOUT ================= -->
+
+<section class="about" id="about">
+
+    <div>
+
+        <span class="badge">
+            ABOUT SIGNOVA
+        </span>
+
+        <h2>
+            Different Hands.<br>
+            Same Meaning.
+        </h2>
+
+        <p>
+            SIGNOVA uses artificial intelligence and computer
+            vision to recognize sign language gestures and
+            transform them into meaningful communication.
+        </p>
+
+        <p>
+            Our goal is to make communication more accessible
+            and help bridge the gap between sign-language users
+            and the wider community.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-logo">
+        🤟 <strong>SIGNOVA</strong>
+    </div>
+
+    <p>
+        Because everyone deserves to be understood.
+    </p>
+
+    <div>
+        © 2026 SIGNOVA
+    </div>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>

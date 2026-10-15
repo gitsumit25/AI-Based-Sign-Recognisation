@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+backend/training_data/
+backend/models/signova_personalized.h5
+backend/models/signova_personalized.tmp.h5
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+*.mp4
+*.mov
+*.avi
